@@ -38,23 +38,22 @@ passport.use(
 		},
 		// when user comes back to our website / is authenticated
 		// this callback runs
-		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id }).then(existingUser => {
-				if (existingUser) {
-					//we already have a record with the given profile ID
-					//null: error
-					done(null, existingUser);
-				} else {
-					// we don't havae a suer record with this ID,
-					// create a new model instance // make a new record
-					new User({ googleId: profile.id })
-						//and save that instance
-						.save()
-						//when saved (async), we get back another instance in the callback
-						//we use this updated / clean instance
-						.then(user => done(null, user));
-				}
-			});
+		async (accessToken, refreshToken, profile, done) => {
+			const existingUser = await User.findOne({ googleId: profile.id });
+
+			if (existingUser) {
+				//we already have a record with the given profile ID
+				//null: error first
+				done(null, existingUser);
+			} else {
+				//we don't have a suer record with this ID,
+				//create a new model instance // make a new record
+				//and save that instance
+				const user = await new User({ googleId: profile.id }).save();
+				//when saved (async), we get back another instance in the callback
+				//we use this updated / clean instance
+				done(null, user);
+			}
 		}
 	)
 );
