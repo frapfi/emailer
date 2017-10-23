@@ -24,6 +24,7 @@ import { FETCH_USER } from './types';
 /*
 //returning a function
 //when the request is complete the action can be dispatched
+
 export const fetchUser = () => {
 	return function(dispatch) {
 		//when we get back the response dispatch the action with the response as payload
@@ -38,5 +39,18 @@ export const fetchUser = () => async dispatch => {
 	//when we get back the response dispatch the action with the response as payload
 	const res = await axios.get('/api/current_user');
 
+	dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const handleToken = token => async dispatch => {
+	const res = await axios.post('/api/stripe', token);
+
+	//dispatching the same action type as in fetchUser
+	//if we dispatch an action with type FETCH_USER adn that contains a payload of the user model
+	//the auth reducer will automatically pick it up and the in theory anything inside
+	//of our application that depends upon the user model will be automatically updated
+	//and so the idea is that if we make sure that the header component looks at the user model to
+	//display the number of credits that the user has when the auth reducer picks up the updated user model
+	//boom, updated header
 	dispatch({ type: FETCH_USER, payload: res.data });
 };
