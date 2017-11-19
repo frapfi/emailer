@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER } from './types';
+import { FETCH_USER, FETCH_SURVEYS } from './types';
 
 //without reduxThunk (let's access the dispatch function directly)
 //reduxThunk inspects the action and when it sees that we return a
@@ -53,4 +53,19 @@ export const handleToken = token => async dispatch => {
 	//display the number of credits that the user has when the auth reducer picks up the updated user model
 	//boom, updated header
 	dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+//take input values and post it to our backend api
+export const submitSurvey = (values, history) => async dispatch => {
+	const res = await axios.post('/api/surveys', values);
+
+	//programmatically navigating to the specified route
+	history.push('/surveys');
+	dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const fetchSurveys = () => async dispatch => {
+	const res = await axios.get('/api/surveys');
+
+	dispatch({ type: FETCH_SURVEYS, payload: res.data });
 };

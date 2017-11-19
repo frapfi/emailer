@@ -8,6 +8,7 @@ const keys = require('./config/keys');
 //just execute stuff / run its js code from those files
 //order matters: 1st load up the modeling stuff than the persisting stuff
 require('./models/User');
+require('./models/Survey');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -41,6 +42,7 @@ app.use(passport.session());
 //with the express app object
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 //result: all routes are separated in a different file
 //app.get('/api/logout', (req, res) ...
 //app.get('/api/current_user') ...
