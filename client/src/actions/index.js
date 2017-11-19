@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { FETCH_USER, FETCH_SURVEYS } from './types';
 
+//Dummy ccomments
+
 //without reduxThunk (let's access the dispatch function directly)
 //reduxThunk inspects the action and when it sees that we return a
 //function instead of an action it automatically call this function and

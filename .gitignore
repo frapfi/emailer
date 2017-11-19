@@ -3,3 +3,4 @@ node_modules
 .idea
 config/dev.js
 notes.md
+package-lock.json
